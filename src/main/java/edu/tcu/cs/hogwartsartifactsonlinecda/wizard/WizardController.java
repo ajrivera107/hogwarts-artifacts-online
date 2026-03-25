@@ -1,12 +1,10 @@
 package edu.tcu.cs.hogwartsartifactsonlinecda.wizard;
 
-import edu.tcu.cs.hogwartsartifactsonlinecda.wizard.Wizard;
 import edu.tcu.cs.hogwartsartifactsonlinecda.wizard.dto.WizardDto;
 import edu.tcu.cs.hogwartsartifactsonlinecda.system.Result;
 import edu.tcu.cs.hogwartsartifactsonlinecda.system.StatusCode;
 import edu.tcu.cs.hogwartsartifactsonlinecda.wizard.converter.WizardDtoToWizardConverter;
 import edu.tcu.cs.hogwartsartifactsonlinecda.wizard.converter.WizardToWizardDtoConverter;
-import edu.tcu.cs.hogwartsartifactsonlinecda.wizard.dto.WizardDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -67,6 +65,12 @@ public class WizardController {
     public Result deleteWizard(@PathVariable Integer wizardId) {
         this.wizardService.delete(wizardId);
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
+    }
+
+    @PutMapping("/{wizardId}/artifacts/{artifactId}")
+    public Result assignArtifact(@PathVariable Integer wizardId, @PathVariable String artifactId) {
+        this.wizardService.assignArtifact(wizardId, artifactId);
+        return new Result(true, StatusCode.SUCCESS,"Artifact Assignment Success");
     }
 }
 
