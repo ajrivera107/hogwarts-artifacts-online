@@ -5,5 +5,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<HogwartsUser, Integer> {
 
+    Optional<HogwartsUser> findByUsername(String Username);
 
 }
