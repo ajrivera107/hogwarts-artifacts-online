@@ -77,13 +77,4 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
     }
 
-    @PatchMapping("/{userId}/password")
-    public Result changePassword(@PathVariable Integer userId, @RequestBody Map<String, String> passwordMap) {
-        String oldPassword = passwordMap.get("oldPassword");
-        String newPassword = passwordMap.get("newPassword");
-        String confirmNewPassword = passwordMap.get("confirmNewPassword");
-        this.userService.changePassword(userId, oldPassword, newPassword, confirmNewPassword);
-        return new Result(true, StatusCode.SUCCESS, "Change Password Success", null);
-    }
-
 }
