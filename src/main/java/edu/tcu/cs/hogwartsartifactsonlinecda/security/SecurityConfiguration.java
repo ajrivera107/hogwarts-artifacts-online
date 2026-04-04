@@ -38,7 +38,7 @@ public class SecurityConfiguration {
     private final RSAPrivateKey privateKey;
 
     @Value("${api.endpoint.base-url}")
-    private String baseurl;
+    private String baseUrl;
 
     private final CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint;
 
@@ -64,11 +64,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(HttpMethod.GET, this.baseurl + "/artifacts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, this.baseurl + "/users/**").hasAuthority("ROLE_admin") // protect the endpoint
-                        .requestMatchers(HttpMethod.POST, this.baseurl + "/users").hasAuthority("ROLE_admin") // protect the endpoint
-                        .requestMatchers(HttpMethod.PUT, this.baseurl + "users/**").hasAuthority("ROLE_admin") // protect the endpoint
-                        .requestMatchers(HttpMethod.DELETE, this.baseurl + "users/**").hasAuthority("ROLE_admin") // protect the endpoint
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/artifacts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_admin") // protect the endpoint
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_admin") // protect the endpoint
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "users/**").hasAuthority("ROLE_admin") // protect the endpoint
+                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "users/**").hasAuthority("ROLE_admin") // protect the endpoint
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         // disallow everything else
                         .anyRequest().authenticated() // put as last
