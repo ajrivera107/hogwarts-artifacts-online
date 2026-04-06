@@ -238,6 +238,7 @@ class WizardServiceTest {
         Wizard w2 = new Wizard();
         w2.setId(2);
         w2.setName("Harry Potter");
+        w2.addArtifact(a);
 
 
         given(this.artifactRepository.findById("1250808601744904192")).willReturn(Optional.of(a));
