@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisCacheClient {
 
-    @Value("${redis.enabled:true}")
+    @Value("${redis.enabled:false}")
     private boolean redisEnabled;
 
     private final StringRedisTemplate redisTemplate;
@@ -34,6 +34,9 @@ public class RedisCacheClient {
     }
 
     public void delete(String key) {
+        if (!redisEnabled) {
+            return;
+        }
         this.redisTemplate.delete(key);
     }
 
