@@ -1,5 +1,6 @@
 package edu.tcu.cs.hogwartsartifactsonlinecda.security;
 
+import edu.tcu.cs.hogwartsartifactsonlinecda.hogwartsuser.MyUserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -33,6 +34,7 @@ public class JwtProvider {
                 .issuedAt(now)
                 .expiresAt(now.plus(expiresIn, ChronoUnit.HOURS))
                 .subject(authentication.getName())
+                .claim("userId", ((MyUserPrincipal)(authentication.getPrincipal())).getHogwartsUser().getId())
                 .claim("authorities", authorities)
                 .build();
 

@@ -17,14 +17,25 @@ public class WizardController {
 
     private final WizardService wizardService;
 
-    private final WizardToWizardDtoConverter wizardToWizardDtoConverter;
-
     private final WizardDtoToWizardConverter wizardDtoToWizardConverter;
 
-    public WizardController(WizardService wizardService, WizardToWizardDtoConverter wizardToWizardDtoConverter, WizardDtoToWizardConverter wizardDtoToWizardConverter) {
+    private final WizardToWizardDtoConverter wizardToWizardDtoConverter;
+
+    public WizardController(WizardService wizardService, WizardDtoToWizardConverter wizardDtoToWizardConverter, WizardToWizardDtoConverter wizardToWizardDtoConverter) {
         this.wizardService = wizardService;
-        this.wizardToWizardDtoConverter = wizardToWizardDtoConverter;
         this.wizardDtoToWizardConverter = wizardDtoToWizardConverter;
+        this.wizardToWizardDtoConverter = wizardToWizardDtoConverter;
+    }
+
+    @GetMapping
+    public Result findAllWizards() {
+        List<Wizard> foundWizards = this.wizardService.findAll();
+
+        // Convert foundWizards to a list of WizardDtos.
+        List<WizardDto> wizardDtos = foundWizards.stream()
+                .map(this.wizardToWizardDtoConverter::convert)
+                .collect(Collectors.toList());
+        return new Result(true, StatusCode.SUCCESS, "Find All Success", wizardDtos);
     }
 
     @GetMapping("/{wizardId}")
@@ -32,20 +43,9 @@ public class WizardController {
         Wizard foundWizard = this.wizardService.findById(wizardId);
         WizardDto wizardDto = this.wizardToWizardDtoConverter.convert(foundWizard);
         return new Result(true, StatusCode.SUCCESS, "Find One Success", wizardDto);
-
     }
 
-    @GetMapping()
-    public Result findAllWizards() {
-        List<Wizard> foundWizards = this.wizardService.findAll();
-        List<WizardDto> wizardDtos = foundWizards.stream()
-                .map(this.wizardToWizardDtoConverter::convert)
-                .collect(Collectors.toList());
-        return new Result(true, StatusCode.SUCCESS, "Find All Success", wizardDtos);
-
-    }
-
-    @PostMapping()
+    @PostMapping
     public Result addWizard(@Valid @RequestBody WizardDto wizardDto) {
         Wizard newWizard = this.wizardDtoToWizardConverter.convert(wizardDto);
         Wizard savedWizard = this.wizardService.save(newWizard);
@@ -70,7 +70,7 @@ public class WizardController {
     @PutMapping("/{wizardId}/artifacts/{artifactId}")
     public Result assignArtifact(@PathVariable Integer wizardId, @PathVariable String artifactId) {
         this.wizardService.assignArtifact(wizardId, artifactId);
-        return new Result(true, StatusCode.SUCCESS,"Artifact Assignment Success");
+        return new Result(true, StatusCode.SUCCESS, "Artifact Assignment Success");
     }
 }
 
