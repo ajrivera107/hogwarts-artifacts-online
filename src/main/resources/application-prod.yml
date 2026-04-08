@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-sources[0]:
+            endpoint: ${AZURE_KEY_VAULT_ENDPOINT}
+  datasource:
+    url: ${spring.datasource.url} # URL of MySQL in Azure
+    username: ${spring.datasource.username} # admin user
+    password: ${spring.datasource.password} # password
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
