@@ -73,6 +73,7 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR, "A server internal error occurs.", ex.getMessage());
     }
 
+
     @ExceptionHandler(InsufficientAuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     Result handleInsufficientAuthenticationException(InsufficientAuthenticationException ex) {
